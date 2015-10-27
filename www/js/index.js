@@ -16,6 +16,43 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+ var confDB = {
+    //Propiedades
+    existe_db: "",
+    initialize: function(){
+        //Declaración de existe_db
+        this.existe_db = window.localStorage.getItem("existe_db");
+        //Breakpoints
+        console.log("LA BBDD NO EXISTE.");
+
+        if(this.existe_db == null || this.existe_db == false){
+            console.log("IMPRESO DE VENTANA EMERGENTE.");
+            //Si existe_db no existe sacamos una ventanita de alerta por pantalla.
+            navigator.notification.confirm(
+                'La base de datos no existe', //Mensaje
+                this.onConfirm,              //Listener
+                'Base de datos',              //Título
+                ['Crear','Salir']            //Botones
+            );
+        }
+        else{
+            console.log("LA BBDD YA EXISTE.");
+        }
+    },
+
+    onConfirm: function(buttonIndex){
+        if(buttonIndex == 1){
+            console.log("HAS SELECCIONADO EL BOTON CREAR.");
+            window.localStorage.setItem("existe_db",1);
+        }
+        else{
+            console.log("HAS PULSADO SALIR.");
+        }
+    }
+};
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -37,13 +74,15 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+        /*
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
-
+        
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
+        */
         console.log('Received Event: ' + id);
+        confDB.initialize();
     }
 };
